@@ -1,0 +1,161 @@
+{% extends 'core/base.html' %} 
+
+{% block content %}
+<form method="POST" autocomplete="off">
+    {% csrf_token %}
+    <div class="flex items-center justify-center p-12">
+        <div class="mx-auto w-full max-w-[550px] bg-white">
+            
+            <!-- Form starts here -->
+            <div class="mb-5">
+                <label for="event_title" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Event Title
+                </label>
+                <input
+                    type="text"
+                    name="event_title"
+                    id="event_title"
+                    placeholder="Enter event title"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+            </div>
+
+            <!-- Event Date and Time -->
+            <div class="-mx-3 flex flex-wrap">
+                <div class="w-full px-3 sm:w-1/2">
+                    <div class="mb-5">
+                        <label for="event_date" class="mb-3 block text-base font-medium text-[#07074D]">
+                            Date
+                        </label>
+                        <input type="date" name="event_date" id="event_date" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                    </div>
+                </div>
+                <div class="w-full px-3 sm:w-1/2">
+                    <div class="mb-5">
+                        <label for="event_time" class="mb-3 block text-base font-medium text-[#07074D]">
+                            Time
+                        </label>
+                        <input type="time" name="event_time" id="event_time" class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description Field -->
+            <div class="mb-5">
+                <label for="description" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Event Description
+                </label>
+                <textarea
+                    name="description"
+                    id="description"
+                    rows="4"
+                    placeholder="Enter event description"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                ></textarea>
+            </div>
+
+            <!-- Address Fields -->
+            <div class="mb-5 pt-3">
+                <label class="mb-5 block text-base font-semibold text-[#07074D] sm:text-xl">
+                    Address Details
+                </label>
+                <div class="-mx-3 flex flex-wrap">
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input
+                                type="text"
+                                name="location"
+                                id="location"
+                                placeholder="Enter location"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            />
+                        </div>
+                    </div>
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input
+                                type="text"
+                                name="city"
+                                id="city"
+                                placeholder="Enter city"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            />
+                        </div>
+                    </div>
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input
+                                type="text"
+                                name="province"
+                                id="province"
+                                placeholder="Enter province"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            />
+                        </div>
+                    </div>
+                    <div class="w-full px-3 sm:w-1/2">
+                        <div class="mb-5">
+                            <input
+                                type="text"
+                                name="post_code"
+                                id="post_code"
+                                placeholder="Enter post code"
+                                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Fields -->
+            <div class="mb-5">
+                <label for="event_organizer" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Event Organizer
+                </label>
+                <input
+                    type="text"
+                    name="event_organizer"
+                    id="event_organizer"
+                    placeholder="Enter event organizer"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+            </div>
+
+            <div class="mb-5">
+                <label for="phone" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Phone Number
+                </label>
+                <input
+                    type="text"
+                    name="phone"
+                    id="phone"
+                    placeholder="Enter phone number"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+            </div>
+
+            <div class="mb-5">
+                <label for="email" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Email Address
+                </label>
+                <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="Enter email address"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                />
+            </div>
+        
+
+            <div>
+                <button type="submit" class="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                    Create Event
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+{% endblock %}

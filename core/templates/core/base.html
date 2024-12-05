@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evento</title>
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+    </script>
+</head>
+<body class="flex flex-col min-h-screen pt-20">
+
+    {% block navbar %}
+    <!-- Navbar -->
+    <nav class="bg-black p-6  fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{% url 'home' %}" class="text-2xl font-bold text-white">EVENTO</a>
+            <ul class="flex space-x-6">
+                <li><a href="{% url 'home' %}" class="text-white hover:text-gray-400">Home</a></li>
+                <li><a href="{% url 'event-page' %}" class="text-white hover:text-gray-400">Events</a></li>
+                <li><a href="#" class="text-white hover:text-gray-400">Booking</a></li>
+                
+               
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url 'event-list' %}" class="text-white hover:text-gray-400">Admin</a></li>
+                {% endif %}
+
+
+                <li class="relative">
+                    <button class="text-white hover:text-gray-400 focus:outline-none" onclick="toggleDropdown()">
+                        <i class="fas fa-user-circle text-2xl"></i>
+                    </button>
+                    <div id="profile-dropdown" class="absolute right-0 w-48 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
+                        <ul class="text-black">
+                            {% if user.is_authenticated %}
+                                <li><a href="{}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a></li>
+                                <li><a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">My events</a></li>
+                                <li><a href="{% url 'create-event' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Create Event</a></li>
+                                <li><a href="{% url 'user-logout' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Logout</a></li>
+                            {% else %}
+                                <li><a href="{}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a></li>
+                                <li><a href="{% url 'login' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Sign in</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                  
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="authModal" class="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg">
+            <h2 class="text-xl font-sans">You need to be logged in to add an event.</h2>
+            <div class="mt-4 flex justify-end">
+                <button onclick="closeModal()" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded-lg">Close</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Show modal if user is not authenticated and clicks the "Add Event" button
+        document.getElementById("addEventButton").addEventListener("click", function() {
+            document.getElementById("authModal").classList.remove("hidden");
+        });
+    
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById("authModal").classList.add("hidden");
+        }
+    </script>
+    {% endblock %}
+
+    {% block content %}
+    <!-- Content goes here -->
+    {% endblock %}
+
+<br>
+<br>
+    {% block footer %}
+    <!-- Footer -->
+    <footer class="bg-black text-white p-4 mt-auto">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 EVENTO. All rights reserved.</p>
+        </div>
+    </footer>
+    {% endblock %}
+</body>
+</html>
+
+
