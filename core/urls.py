@@ -19,5 +19,7 @@ urlpatterns = [
     path('delete-event/<int:pk>/',views.delete_event,name = "delete-event"),
     path('event-book/<int:pk>/',views.event_book,name = "event-book"),
 
+    path('be-an-org/', views.be_an_org, name="be-an-org"),
+
 
 ]

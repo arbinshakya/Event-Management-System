@@ -139,8 +139,6 @@ def event_book(request, pk):
     context = {'events': events}
     return render(request, "core/event_book.html", context)
 
-# def total_events(request):
-#     total_events_count =  CreateEvent.objects.count()
-#     context = {'total_events': total_events_count}
-#     return (context)
 
+def be_an_org(request):
+    return render(request, 'core/be_an_org.html')
