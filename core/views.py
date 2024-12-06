@@ -83,7 +83,6 @@ def create_event(request):
     else:
         # Initialize the form for GET request
         form = CreateEventForm()
-
     return render(request, 'core/create_event.html', {'form': form})
 
 

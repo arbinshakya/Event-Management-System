@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<div class="container mt-10 flex pl-20 justify-start" style="gap: 2rem;">
+<div class="container mt-10 flex pl-6 justify-start" style="gap: 2rem;">
   <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
     <h1 class="text-xl font-semibold text-gray-800">Total Events: {{ total_events }}</h1>
   </div>
@@ -15,11 +15,11 @@
 
 
 
-<div class="flex justify-center mt-10 p-6">
+<div class="flex justify-center p-6">
   <!-- Add margin-top to create space below the "Event" text -->
   
   
-  <div class="mt-5 w-full max-w-screen-lg px-5"> <!-- Added px-5 here for padding -->
+  <div class="w-full max-w-screen-lg px-5"> <!-- Added px-5 here for padding -->
     <table class="table-auto w-full"> <!-- Removed max-w-screen-lg to make the table fit within the container -->
       <thead class="bg-gray-100">
         <tr>
@@ -64,7 +64,7 @@
           {% endfor %}
         {% else %}
           <tr>
-            <td colspan="7" class="px-4 py-2 text-center text-sm text-gray-500">No events found</td>
+            <td colspan="7" class="px-4 py-2 text-center text-sm text-gray-500">No events found !</td>
           </tr>
         {% endif %}
       </tbody>
