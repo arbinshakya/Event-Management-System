@@ -1,13 +1,56 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block content %}
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg">
+    <h1 class="text-2xl font-semibold text-center text-gray-800">{{ events.event_title }}</h1>
+    <h3 id="event-price" data-price="{{ events.price }}" class="text-xl text-center text-gray-600 mt-2">Ticket price: Nrs {{ events.price }}</h3>
 
+    <form method="POST" action="{% url 'buy_ticket' event_id=events.id %}" class="mt-6">
+        {% csrf_token %}
+        
+        <div class="mb-4">
+            <label for="quantity" class="block text-lg font-medium text-gray-700">Enter the number of tickets:</label>
+            <input
+                type="number"
+                name="quantity"
+                id="quantity"
+                class="w-full p-3 border border-gray-300  mt-2 text-lg"
+                placeholder="Enter the number"
+                min="1"
+                oninput="calculateTotal()" />
+        </div>
 
-<div class = "text-center mt-10" >
+        <div class="mt-4">
+            <p class="text-lg font-semibold">Total Price: Nrs <span id="total-price" class="font-bold text-green-600">0.00</span></p>
+        </div>
 
-    <h1 class = "font-extrabold text-4xl">{{ events.event_title }} </h1>
-
+        <div class="mt-6 ">
+            <button type="submit" class= "transition-colors duration-300 bg-white text-gray-800 w-full p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white ">
+                Buy Tickets
+            </button>
+        </div>
+    </form>
 </div>
+
+<script>
+    function calculateTotal() {
+        const quantity = parseInt(document.getElementById('quantity').value); // Get ticket quantity and ensure it's a number
+        const eventPrice = parseFloat(document.getElementById('event-price').getAttribute('data-price')); // Get the price from data attribute
+
+        // Log the eventPrice to check if it's being fetched correctly
+        console.log("Event Price:", eventPrice);
+
+        // Ensure both values are numbers before calculating
+        if (!isNaN(quantity) && !isNaN(eventPrice)) {
+            const totalPrice = eventPrice * quantity; // Calculate total price
+            document.getElementById('total-price').innerText = totalPrice.toFixed(2); // Display the total price with 2 decimal places
+        } else {
+            console.log("Invalid input: quantity or eventPrice is NaN");
+            document.getElementById('total-price').innerText = '0.00'; // Fallback to 0 if invalid values
+        }
+    }
+
+</script>
+
 {% endblock %}
-
-

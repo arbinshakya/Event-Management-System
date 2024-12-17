@@ -24,7 +24,7 @@
             <ul class="flex space-x-6">
                 <li><a href="{% url 'home' %}" class="text-white hover:text-gray-400">Home</a></li>
                 <li><a href="{% url 'event-page' %}" class="text-white hover:text-gray-400">Events</a></li>
-                <li><a href="#" class="text-white hover:text-gray-400">Booking</a></li>
+                <li><a href="{% url 'my_tickets' %}" class="text-white hover:text-gray-400">My tickets</a></li>
                 
                
                 {% if request.user.is_superuser %}
@@ -41,8 +41,13 @@
                             {% if user.is_authenticated %}
                                 <li><a href="{}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a></li>
                                 <li><a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">My events</a></li>
-                                <li><a href="{% url 'create-event' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Create Event</a></li>
-                                <li><a href="{% url 'be-an-org' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Be an organizer</a></li>
+                                {% if request.is_approved or user.is_superuser %}
+                                        <li><a href="{% url 'create-event' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Create Event</a></li>
+                                    {% endif %}
+
+                                {% if not user.is_superuser %}
+                                    <li><a href="{% url 'be-an-org' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Be an organizer</a></li>
+                                {% endif %}
 
                                 <li><a href="{% url 'user-logout' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Logout</a></li>
                             {% else %}
@@ -78,6 +83,9 @@
             document.getElementById("authModal").classList.add("hidden");
         }
     </script>
+    {% endblock %}
+    {% block upper_stats %}
+    <!-- Placeholder for total stats (it will be overridden in child templates) -->
     {% endblock %}
 
     {% block content %}

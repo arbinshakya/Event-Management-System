@@ -1,16 +1,23 @@
 {% extends 'core/base.html' %}
 
-{% block content %}
 
-
-<div class="container mt-10 flex pl-6 justify-start" style="gap: 2rem;">
-  <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+{% block upper_stats%}
+<div  class="container mt-10 flex pl-6 justify-center" style="gap: 2rem;">
+  <div class="#">
     <h1 class="text-xl font-semibold text-gray-800">Total Events: {{ total_events }}</h1>
   </div>
-  <div class="bg-gray-100 p-6 rounded-lg shadow-sm">
+  <a href="{% url 'user-list' %}">
     <h1 class="text-xl font-semibold text-gray-800">Total Users: {{ total_users }}</h1>
-  </div>
+  </a>
+  <a href="{% url 'org-list' %}">
+    <h1 class="text-xl font-semibold text-gray-800">Total Oraganizations: {{ total_orgs }}</h1>
+  </a>
 </div>
+
+{% endblock %}
+
+{% block content %}
+
 
 
 

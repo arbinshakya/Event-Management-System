@@ -1,0 +1,65 @@
+{% extends 'core/base.html' %}
+
+
+{% block upper_stats %}
+<div class="container mt-10 flex pl-6 justify-center" style="gap: 2rem;">
+    <a href="{% url 'event-list' %}">
+      <h1 class="text-xl font-semibold text-gray-800">Total Events: {{ total_events }}</h1>
+    </a>
+    <a href class="#">
+      <h1 class="text-xl font-semibold text-gray-800">Total Users: {{ total_users }}</h1>
+    </a>
+    <a href="{% url 'org-list' %}">
+      <h1 class="text-xl font-semibold text-gray-800">Total Organizations: {{ total_orgs }}</h1>
+    </a>
+  </div>
+  
+{% endblock %}  
+
+{% block content %}
+
+<div class="flex justify-center p-6">
+  <!-- Add margin-top to create space below the "Event" text -->
+  
+  
+  <div class="w-full max-w-screen-lg px-5"> <!-- Added px-5 here for padding -->
+    <table class="table-auto w-full"> <!-- Removed max-w-screen-lg to make the table fit within the container -->
+      <thead class="bg-gray-100">
+        <tr>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Username </th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Date Joined </th>
+          <!-- <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Event Date</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Event Time</th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Event Organizer</th> -->
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
+          <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
+
+
+        </tr>
+      </thead>
+      <tbody>
+        {% if users %}
+          {% for user in users %}
+            <tr class="hover:bg-gray-50">
+              <td class="px-4 py-2 text-sm text-gray-800">{{ user.id }}</td>
+              <td class="px-4 py-2 text-sm text-gray-800">{{ user.username }}</td>
+              <td class="px-4 py-2 text-sm text-gray-800">{{ user.date_joined|date:"Y-m-d" }}</td>
+
+              
+
+              
+            
+            
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="7" class="px-4 py-2 text-center text-sm text-gray-500">No users found !</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
