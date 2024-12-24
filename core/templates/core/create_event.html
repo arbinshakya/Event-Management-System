@@ -19,6 +19,24 @@
                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
             </div>
+            <div class="mb-5">
+                <label for="event_category" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Event Category
+                </label>
+                <select
+                    name="event_category"
+                    id="event_category"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
+                    required
+                >
+                    <option value="" disabled selected>Select an event category</option>
+                    {% for key, value in event_categories %}
+                        <option value="{{ key }}" {% if key == event.event_category %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            
 
             <!-- Event Date and Time -->
             <div class="-mx-3 flex flex-wrap">
@@ -146,7 +164,7 @@
                     class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                 />
             </div>
-            <div class="mb-5">
+            <div class="mb-5" id="ticket_rate_field">
                 <label for="price" class="mb-3 block text-base font-medium text-[#07074D]">
                     Ticket rate
                 </label>
@@ -159,7 +177,7 @@
                 />
             </div>
 
-            <div class="mb-5">
+            <div class="mb-5" id="total_ticket_field">
                 <label for="price" class="mb-3 block text-base font-medium text-[#07074D]">
                     Total Tickets
                 </label>
@@ -181,6 +199,29 @@
         </div>
     </div>
 </form>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const eventCategory = document.getElementById('event_category');
+        const ticketRateField = document.getElementById('ticket_rate_field');
+        const totalTicketField = document.getElementById('total_ticket_field');
+
+        function toggleFields() {
+            if (eventCategory.value === 'Trade') { // Replace 'trade' with the key for the Trade category
+                ticketRateField.style.display = 'none';
+                totalTicketField.style.display = 'none';
+            } else {
+                ticketRateField.style.display = 'block';
+                totalTicketField.style.display = 'block';
+            }
+        }
+
+        // Initial check in case the form is prefilled
+        toggleFields();
+
+        // Add change event listener
+        eventCategory.addEventListener('change', toggleFields);
+    });
+</script>
 
 
 {% endblock %}

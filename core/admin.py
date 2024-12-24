@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Be_an_organizer, CreateEvent, Ticket
+from .models import *
 
 # Inline model to display tickets for each event
 class TicketInline(admin.TabularInline):
@@ -10,7 +11,7 @@ class TicketInline(admin.TabularInline):
 
 # Custom admin for CreateEvent to display related tickets
 class CreateEventAdmin(admin.ModelAdmin):
-    list_display = ('event_title', 'event_date', 'location', 'price', 'total_ticket')  # Fields to display for events
+    list_display = ('event_title', 'event_date','location', 'price', 'total_ticket')  # Fields to display for events
     inlines = [TicketInline]  # Add the TicketInline to the CreateEventAdmin
 
 # Custom admin for Be_an_organizer
@@ -29,7 +30,14 @@ class BeAnOrganizerAdmin(admin.ModelAdmin):
         self.message_user(request, f"{queryset.count()} organizers approved successfully.")
     approve_organizers.short_description = "Approve selected organizers"
 
+
+# class TicketAdmin(admin.ModelAdmin):
+#     list_display = 
+
 # Register models with the custom admins
 admin.site.register(Be_an_organizer, BeAnOrganizerAdmin)
 admin.site.register(CreateEvent, CreateEventAdmin)
 admin.site.register(Ticket)
+admin.site.register(TradeEvent)
+admin.site.register(Seller)
+admin.site.register(Meeting)

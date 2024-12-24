@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2 class="text-center text-2xl font-bold mt-10">Meetings Scheduled</h2>
+<p class="text-center mt-4">You have scheduled meetings with the following sellers:</p>
+<ul class="mt-6">
+    {% for seller in selected_sellers %}
+        <li class="text-center">{{ seller.company_name }}</li> <!-- Display the company name of the seller -->
+    {% endfor %}
+</ul>
+<a href="{% url 'home' %}" class="block mt-8 text-center text-blue-500">Return to Home</a>
+{% endblock %}

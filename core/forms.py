@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import CreateEvent
+from .models import *
 
 
 
@@ -30,6 +30,10 @@ class CreateEventForm(forms.ModelForm):
     class Meta:
         model = CreateEvent
         fields = '__all__'
+        
+
+
+
 
 class UpdateEventForm(forms.ModelForm):
     class Meta:
@@ -37,5 +41,10 @@ class UpdateEventForm(forms.ModelForm):
         fields = '__all__'
 
 
+
+class SellerForm(forms.ModelForm):
+    class Meta:
+        model = Seller
+        fields = '__all__'
 
 

@@ -1,5 +1,7 @@
 from django.urls import path, include
 from . import views
+from django.views import View
+# from .views import KhaltiRequestView, KhaltiVerifyView
 
 urlpatterns = [
 
@@ -14,7 +16,28 @@ urlpatterns = [
 
     # path('get-tickets/',views.get_tickets, name = 'get-tickets'),
 
+    #khalti
+    path('khalti-home/',views.khaltihome, name = "khalti-home"),
+    path('initiate/', views.initKhalti, name = "initiate" ),
+    path('verify/', views.verifyKhalti, name = "verify" ),
+
+
+    # path('khalti-request/', KhaltiRequestView.as_view(), name="khalti-request"),
+    # path('khalti-verify/', KhaltiVerifyView.as_view(), name = "khalti-verify"),
+
     path('event-page/', views.event_page, name = "event-page"),
+    path('trade-event/<int:pk>', views.trade_event, name = "trade-event"),
+    # path('trade-event_buyer/', views.trade_event_buyer, name = "trade-event-buyer"),
+    path('trade-event_seller/', views.trade_event_seller, name = "trade-event-seller"),
+    path('select-seller/', views.select_sellers_view, name = "select-seller"),
+    # path('select-meeting', views.schedule_meetings, name = "select-meeting"),
+
+
+
+
+
+
+
     path('my-tickets/', views.my_tickets, name = "my_tickets"),
     # path('total-price/<int:event_id>/',views.total_price, name = "total-price"),
     path('update-event/<int:pk>/', views.update_event, name = "update-event"),
@@ -22,9 +45,13 @@ urlpatterns = [
     path('user-list/', views.user_list, name = "user-list"),
     path('org-list/',views.org_list, name = "org-list"),
     path('buy-ticket/<int:event_id>/', views.buy_ticket, name = "buy_ticket"),
-
+    path('khalti-payment/<int:total_amount>/', views.khalti_payment, name = "khalti-payment"),
 
     # path('event-list/', views.total_events, name = "event-list"),
+
+    # path('initiate', views.initkhalti, name = "initiate"),
+    # path( ' verify', views.verifykhalti, name = "verify"),
+
 
 
 

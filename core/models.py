@@ -3,9 +3,19 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class CreateEvent(models.Model):
+
+    CONCERT = 'Concert'
+    TRADE = 'Trade'
+
+    EVENT_CATEGORY =[
+        (CONCERT, 'Concert'),
+        (TRADE, 'Trade')
+    ]
+
     event_title = models.CharField(max_length=255)
     creation_date = models.DateField(auto_now_add=True)
     location = models.CharField(max_length=255)
+    event_category = models.CharField(max_length=255, choices=EVENT_CATEGORY, default=CONCERT)
     city = models.CharField(max_length=255)
     post_code = models.IntegerField()
     province = models.CharField(max_length=255)
@@ -15,13 +25,19 @@ class CreateEvent(models.Model):
     event_organizer = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     phone = models.CharField(max_length=10)
-    price = models.IntegerField(default = 0)
-    total_ticket = models.IntegerField(default=0)
+    price = models.IntegerField(default = 0, blank= True)
+    total_ticket = models.IntegerField(default=0, blank= True)
 
     
     def __str__(self):
         return self.event_title
-    
+
+
+METHOD = (
+    # ("Door sale","Door sale"),
+    ("Khalti","Khalti"),
+)
+
 
 class Ticket(models.Model):
     event = models.ForeignKey(CreateEvent, on_delete=models.DO_NOTHING)
@@ -29,6 +45,8 @@ class Ticket(models.Model):
     purchase_date = models.DateTimeField(auto_now_add=True)
     quantity = models.IntegerField(default = 0)
     total_price = models.IntegerField(default = 0)
+    payment_method = models.CharField(max_length = 20, choices = METHOD)
+    payment_completed = models.BooleanField(default = False, null = True, blank= True)
 
     def __str__(self):
         return self.event.event_title
@@ -57,3 +75,34 @@ class Be_an_organizer(models.Model):
 
     def __str__(self):
         return self.organization_name
+
+
+
+class TradeEvent(models.Model):
+    company_name = models.CharField(max_length = 255)
+    company_email = models.CharField(max_length =255)
+
+    def __str__(self):
+        return self.company_name
+    
+
+class Seller(models.Model):
+    name = models.CharField(max_length=255)
+    company_name = models.CharField(max_length = 255)
+    location = models.CharField(max_length=100)
+    services = models.TextField()
+
+    def __str__(self):
+        return self.company_name
+    
+    
+class Meeting(models.Model):
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    scheduled_date = models.DateField()
+    scheduled_time = models.TimeField()
+
+
+    def __str__(self):
+        return f"meeting with {self.seller.company_name} by {self.buyer.username}"
+
