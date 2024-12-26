@@ -74,7 +74,7 @@ class Be_an_organizer(models.Model):
     is_approved = models.BooleanField(default = False)
 
     def __str__(self):
-        return self.organization_name
+        return f"{self.organization_name}"
 
 
 
@@ -86,11 +86,25 @@ class TradeEvent(models.Model):
         return self.company_name
     
 
+class Buyer(models.Model):
+    first_name =  models.CharField(max_length=255)
+    last_name =  models.CharField(max_length=255, null= True, blank=True)
+    phone = models.CharField(max_length=255)
+    email = models.EmailField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False, related_name='buyers')
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+
 class Seller(models.Model):
-    name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255)
     company_name = models.CharField(max_length = 255)
     location = models.CharField(max_length=100)
     services = models.TextField()
+    email = models.EmailField(default='example@example.com')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, editable=False, related_name='sellers')
+    
 
     def __str__(self):
         return self.company_name
@@ -104,5 +118,6 @@ class Meeting(models.Model):
 
 
     def __str__(self):
-        return f"meeting with {self.seller.company_name} by {self.buyer.username}"
+        return f"{self.seller.company_name}" 
+
 

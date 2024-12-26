@@ -7,6 +7,9 @@ urlpatterns = [
 
     path('',views.home, name = 'home'),
     path('booking',views.booking, name = 'booking'),
+    path('profile',views.profile, name = 'profile'),
+
+
 
     path('register/',views.user_register, name = 'register'),
     path('login/', views.user_login, name = 'login'),
@@ -31,10 +34,10 @@ urlpatterns = [
     path('trade-event_seller/', views.trade_event_seller, name = "trade-event-seller"),
     path('select-seller/', views.select_sellers_view, name = "select-seller"),
     # path('select-meeting', views.schedule_meetings, name = "select-meeting"),
-
-
-
-
+    path('buyer-registration/', views.buyers, name = "buyer-registration"),
+    path('buyer-profile/', views.buyer_profile, name = "buyer-profile"),
+    path('manage-meetings/', views.manage_meetings, name= 'manage-meetings'),
+    path('seller-buyers/', views.seller_buyer_views, name= 'seller-buyers'),
 
 
 

@@ -200,20 +200,83 @@ def event_book(request, pk):
     context = {'events': events}
     return render(request, "core/event_book.html", context)
 
+
+def buyers(request):
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        phone = request.POST.get("phone")
+        email = request.POST.get('email')
+
+        print(f"Received data: first_name={first_name}, last_name={last_name} ,phone={phone}, email={email}")
+
+        if not first_name or not last_name or not phone or not email:
+            messages.error(request, "All fields are required.")
+            return render(request, 'core/buyer_registration.html')
+        
+        existing_buyer = Buyer.objects.filter(email=email).first()
+        if existing_buyer:
+            messages.warning(request, "You are already registered as a seller!")
+            return render(request, 'core/buyer_registration.html')
+        
+        try:
+            buyer = Buyer.objects.create(
+                first_name = first_name,
+                last_name = last_name,
+                phone = phone,
+                email = email,
+                user = request.user
+            )
+            print(f'Buyer saved: {buyer}')
+            messages.success(request, "Buyer saved successfully")
+            return redirect('trade-event')
+        
+        except Exception as e:
+            print(f'error while saving buyer: {e}')
+            messages.error(request, f"An error occurred: {e}")
+            return render(request, 'core/buyer_registration.html')
+
+    return render(request, 'core/buyer_registration.html')
+            
+
+
+
+def buyer_profile(request):
+    # Safely fetch the Buyer object for the logged-in user
+    try:
+        buyer = Buyer.objects.filter(user=request.user).first()
+    except Buyer.DoesNotExist:
+        # If no buyer is found for the logged-in user, redirect to registration page
+        return redirect('buyer-registration')
+
+    return render(request, 'core/buyer_profile.html', {'buyer': buyer})
+
+
+def manage_meetings(request):
+    try:
+        seller= Seller.objects.filter(user = request.user).first()
+    except Seller.DoesNotExist:
+        return redirect('trade-event-seller')
+    
+    return render(request, 'core/manage_meeting.html', {'seller': seller})
+
+
+
 def trade_event_seller(request):
     if request.method == "POST":
-        name = request.POST.get("name")
+        full_name = request.POST.get("full_name")
         company_name = request.POST.get("company_name")
         location = request.POST.get("location")
+        email = request.POST.get("email")
         services = request.POST.get("services")
 
-        print(f"Received data: name={name}, company_name={company_name}, location={location}, services={services}")
+        print(f"Received data: full_name={full_name}, company_name={company_name}, location={location}, email={email},services={services}")
 
-        if not name or not company_name or not location or not services:
+        if not full_name or not company_name or not location or not email or not services:
             messages.error(request, "All fields are required.")
             return render(request, 'core/trade_event_seller.html')
         
-        existing_seller = Seller.objects.filter(company_name=company_name).first()
+        existing_seller = Seller.objects.filter(company_name=company_name, email=email).first()
         if existing_seller:
             messages.warning(request, "You are already registered as a seller!")
             return render(request, 'core/trade_event_seller.html')
@@ -221,10 +284,12 @@ def trade_event_seller(request):
         try:
             # Attempt to create a Seller object
             seller = Seller.objects.create(
-                name=name,
+                full_name=full_name,
                 company_name=company_name,
+                email = email,
                 location=location,
-                services=services
+                services=services,
+                user = request.user
             )
             print(f"Seller saved: {seller}")
             messages.success(request, "Successfully registered as a Seller!")
@@ -324,22 +389,54 @@ def buy_ticket(request, event_id):
 def select_sellers_view(request):
     if request.method == 'POST':
         selected_sellers_ids = request.POST.getlist('sellers')
-        buyer = request.user
+        buyer = request.user 
 
+        # Get the selected sellers
         selected_sellers = Seller.objects.filter(id__in=selected_sellers_ids)
 
+        # Create meetings for the selected sellers
         for seller in selected_sellers:
-            Meeting.objects.create(buyer = buyer,
-                                   seller = seller,
-                                   scheduled_date = now().date(),
-                                   scheduled_time = now().time())
+            Meeting.objects.create(
+                buyer=buyer,
+                seller=seller,
+                scheduled_date=now().date(),
+                scheduled_time=now().time()
+            )
 
-
+        # Render a success page, passing the selected sellers
         return render(request, 'core/success.html', {'selected_sellers': selected_sellers})
     
-    sellers  = Seller.objects.all()
-    return render (request, 'core/trade_event_buyer.html',{'sellers': sellers})
+    # If the request method is GET, retrieve all sellers
+    sellers = Seller.objects.all()
 
+    # Check if any sellers were selected in the previous session
+    selected_sellers_ids = request.session.get('selected_sellers_ids', [])
+
+    # Render the template, passing the sellers and selected_sellers_ids
+    return render(request, 'core/trade_event_buyer.html', {
+        'sellers': sellers,
+        'selected_sellers_ids': selected_sellers_ids
+    })
+
+
+@login_required
+def seller_buyer_views(request):
+    seller = request.user.sellers.first()
+
+
+    if not seller:
+        return render(request, 'core/error.html',{
+            'message': "You are not registered as a seller."
+        })
+
+    meetings = Meeting.objects.filter(seller = seller)
+
+    buyers = [meeting.buyer for meeting in meetings]
+
+    return render(request, 'core/seller_buyer.html',{
+        'seller':seller,
+        'buyers': buyers,
+    })
 
 
 
@@ -429,6 +526,9 @@ def initKhalti(request, event_id, total_amount      ):
     return redirect(new_res['payment_url'])
     return redirect("home")
 
+
+
+
 @login_required(login_url="user_login")
 def verifyKhalti(request):
     url = "https://a.khalti.com/api/v2/epayment/lookup/"
@@ -461,3 +561,7 @@ def verifyKhalti(request):
         #     raise BadRequest("sorry ")
 
         return redirect('home')
+
+
+def profile(request):
+    return render(request, "core/profile.html")

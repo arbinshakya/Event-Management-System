@@ -8,6 +8,7 @@
     <div class="mt-10 pl-10">
         {% for seller in sellers %}
             <div class="mb-6 flex items-center space-x-4">
+                <!-- Checkbox for each seller -->
                 <input type="checkbox" name="sellers" value="{{ seller.id }}" id="seller-{{ seller.id }}" class="form-checkbox h-5 w-5 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
                     {% if seller.id in selected_sellers_ids %} checked {% endif %}>
                 <label for="seller-{{ seller.id }}" class="text-lg text-gray-700">{{ seller.company_name }}</label>
@@ -20,4 +21,5 @@
         </button>
     </div>
 </form>
+
 {% endblock %}

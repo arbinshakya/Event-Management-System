@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2 class="text-center text-2xl font-bold mt-10">Buyers Who Selected {{ seller.company_name }}</h2>
+
+<div class="mt-10">
+    {% if buyers %}
+        <ul class="list-disc pl-10">
+            {% for buyer in buyers %}
+                <li>
+                    <p class="text-lg text-gray-700">{{ buyer.first_name }} {{ buyer.last_name }}</p>
+                    <!-- <p>Email: {{ buyer.email }}</p>
+                    <p>Phone: {{ buyer.phone }}</p>
+               -->
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-center text-gray-600">No buyers have selected you yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

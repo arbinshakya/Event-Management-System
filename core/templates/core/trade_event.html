@@ -4,19 +4,36 @@
 
 <div class="mt-10 text-center">
     <h2 class="text-xl">{{ events.event_title }}</h2>
-    <h3 class="mt-10">{{events.description}}</h3>
-    <h3 class="">Location: {{events.location}}</h3>
-    <h3 class="">Date: {{events.event_date}}</h3>
-
+    <h3 class="mt-10">{{ events.description }}</h3>
+    <h3 class="">Location: {{ events.location }}</h3>
+    <h3 class="">Date: {{ events.event_date }}</h3>
 </div>
 
 <div class="flex justify-center gap-10 mt-4">
-    <a href = "{% url 'select-seller' %}" class = "transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">Register as Buyer</a>
-    <a href="{% url 'trade-event-seller' %}" class = "transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">Become Seller</a>
-    <a href="{% url 'trade-event-seller' %}" class = "transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">Manage Meetings</a>
+    {% if not request.user.buyers.exists and not request.user.sellers.exists %}
+        <!-- User is not registered as a buyer or a seller -->
+        <a href="{% url 'buyer-registration' %}" class="transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">
+            Register as Buyer
+        </a>
+    {% elif not request.user.sellers.exists %}
+        <!-- User is not registered as a seller but is a buyer -->
+        <a href="{% url 'select-seller' %}" class="transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">
+            Schedule meetings
+        </a>
+    {% endif %}
 
+    {% if not request.user.sellers.exists and not request.user.buyers.exists %}
+        <!-- User is not registered as a seller and is also not a buyer -->
+        <a href="{% url 'trade-event-seller' %}" class="transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">
+            Become Seller
+        </a>
+    {% elif request.user.sellers.exists %}
+        <!-- User is already registered as a seller -->
+        <a href="{% url 'seller-buyers' %}" class="transition-colors duration-300 bg-white text-gray-800 w-3 p-3 border border-2 border-gray-700 hover:bg-gray-500 hover:text-white">
+            Manage Meetings
+        </a>
+    {% endif %}
     
 </div>
 
 {% endblock %}
-

@@ -39,7 +39,7 @@
                     <div id="profile-dropdown" class="absolute right-0 w-48 mt-2 bg-white border border-gray-300 rounded-lg shadow-lg hidden">
                         <ul class="text-black">
                             {% if user.is_authenticated %}
-                                <li><a href="{}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a></li>
+                                <li><a href="{% url 'profile' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Profile</a></li>
                                 <li><a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">My events</a></li>
                                 {% if request.is_approved or user.is_superuser %}
                                         <li><a href="{% url 'create-event' %}" class="block px-4 py-2 text-sm hover:bg-gray-100">Create Event</a></li>

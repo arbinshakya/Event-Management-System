@@ -34,10 +34,25 @@ class BeAnOrganizerAdmin(admin.ModelAdmin):
 # class TicketAdmin(admin.ModelAdmin):
 #     list_display = 
 
+class SellerAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'company_name', 'location', 'services', 'email', 'user')
+    readonly_fields = ('user',)
+
+
+
+
+class BuyerAdmin(admin.ModelAdmin):
+    list_display = ('first_name','last_name' ,'phone', 'email', 'user') 
+    search_fields = ('first_name', 'last_name')
+    readonly_fields = ('user',)   
+
+
 # Register models with the custom admins
 admin.site.register(Be_an_organizer, BeAnOrganizerAdmin)
 admin.site.register(CreateEvent, CreateEventAdmin)
 admin.site.register(Ticket)
 admin.site.register(TradeEvent)
-admin.site.register(Seller)
+admin.site.register(Seller, SellerAdmin)
 admin.site.register(Meeting)
+admin.site.register(Buyer, BuyerAdmin)
+
